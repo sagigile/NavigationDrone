@@ -1,0 +1,9 @@
+# Environments
+.venv/
+.idea/
+__pycache__/
+
+# Big Data & Media (Git limit is 100MB)
+*.MP4
+*.mp4
+sampled_frames/
