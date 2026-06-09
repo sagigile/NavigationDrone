@@ -1,9 +1,74 @@
-# Environments
-.venv/
-.idea/
+# =========================
+# Python cache / environment
+# =========================
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+venv/
+env/
+ENV/
 
-# Big Data & Media (Git limit is 100MB)
-*.MP4
+# =========================
+# IDE files
+# =========================
+.idea/
+.vscode/
+
+# =========================
+# Large videos
+# =========================
 *.mp4
-sampled_frames/
+*.MP4
+*.mov
+*.MOV
+*.avi
+*.mkv
+
+# =========================
+# Heavy precomputed outputs
+# These files should be shared by ZIP/Drive, not Git
+# =========================
+outputs/
+results/
+cache/
+
+# =========================
+# HLoc / COLMAP generated heavy files
+# =========================
+*.h5
+*.db
+*.bin
+*.pdb
+*.dll
+*.exe
+
+# =========================
+# Runtime generated outputs
+# =========================
+*.kml
+*.log
+
+# =========================
+# Large data folders
+# =========================
+query_video/
+reference_video/
+data/
+dataset/
+
+# =========================
+# External tools / third party code
+# Share by ZIP or installation instructions
+# =========================
+tools/
+Hierarchical-Localization/
+
+# =========================
+# Generated images
+# Keep only specific important images manually if needed
+# =========================
+*.png
+*.jpg
+*.jpeg

@@ -1,0 +1,292 @@
+paths:
+  reference_videos_dir: .
+  query_video_path: query_video/test_realtime_video.MP4
+  reference_map_path: reference_map.png
+  outputs_dir: outputs
+  colmap_exe: tools/COLMAP/COLMAP.bat
+
+reference:
+  videos:
+    - video_path: reference_flight_1.MP4
+      telemetry_path: reference_flight_1.SRT
+    - video_path: reference_flight_2.MP4
+      telemetry_path: reference_flight_2.SRT
+
+  frame_step_sec: 0.5
+  telemetry_time_offset_sec: 0.0
+  blur_threshold: 80.0
+
+query:
+  frame_step_sec: 0.5
+
+hloc:
+  local_feature: superpoint_aachen
+  matcher_preferred: superpoint+lightglue
+  matcher_fallback: superglue
+  retrieval_feature: netvlad
+  retrieval_top_k: 100
+
+localization:
+  min_success_inliers: 20
+  max_reprojection_error_px: 12.0
+
+kalman:
+  enabled: true
+  process_noise: 2.0
+  measurement_noise: 8.0
+
+  geo_filter:
+    enabled: true
+    min_lat: 32.0800
+    max_lat: 32.1400
+    min_lon: 35.1400
+    max_lon: 35.2500
+
+  trajectory_filter:
+    max_speed_mps: 35.0
+    max_gap_sec: 8.0
+    max_jump_m: 120.0
+    min_chain_points: 3
+
+  route_display:
+    densify: true
+    dense_step_sec: 0.5
+    max_interpolation_gap_sec: 6.0
+
+# Add these sections to the END of your existing config.yaml.
+# Do not delete the existing paths / reference / hloc / kalman sections.
+# You do NOT need to rebuild the heavy hloc/COLMAP map after changing these values.
+
+camera:
+  # Uses the median focal length from your COLMAP cameras.txt instead of the rough 1.2*image_size estimate.
+  cameras_txt: outputs/sfm_txt/cameras.txt
+  model: SIMPLE_RADIAL
+
+view_center:
+  enabled: true
+
+  # From the SRT example you sent:
+  # abs_alt 759.842 - rel_alt 49.800 = 710.042 meters.
+  # If the route is shifted too much/too little, adjust this by ±10-30 meters.
+  ground_alt_m: 720
+
+  # COLMAP usually looks along +Z in camera coordinates.
+  # Keep auto so the code can try the opposite axis if needed.
+  optical_axis: negative_z
+  try_opposite_axis: true
+
+geo_filter:
+  enabled: true
+  min_lat: 32.0800
+  max_lat: 32.1400
+  min_lon: 35.1400
+  max_lon: 35.2500
+
+trajectory_filter:
+  max_speed_mps: 35.0
+  max_gap_sec: 8.0
+  max_jump_m: 120.0
+  min_chain_points: 3
+
+route_display:
+  densify: true
+  dense_step_sec: 0.5
+  max_interpolation_gap_sec: 6.0
+
+# Add or update this section in config.yaml.
+# It does not require rebuilding the reference model.
+
+vo_bridge:
+  # A query frame becomes an absolute anchor only if the reranked match is strong enough.
+  anchor_min_inliers: 18
+  anchor_min_good_matches: 18
+
+  # Reject anchors that create physically implausible jumps.
+  anchor_max_speed_mps: 45.0
+  anchor_max_jump_m: 150.0
+  anchor_max_gap_sec: 90.0
+
+  # Visual odometry between consecutive query frames.
+  vo_resize_width: 640
+  vo_orb_features: 3000
+
+  # Usually true, because background motion is opposite to camera motion.
+  # If the VO bridge route goes generally backwards, change to false and rerun only visual_odometry_bridge.py.
+  invert_motion: false
+
+# Add or update this section in config.yaml.
+# This version builds a route using strong anchors, weak anchors, and visual odometry.
+
+anchor_vo_v2:
+  strong_anchor_min_inliers: 15
+  strong_anchor_min_good_matches: 15
+
+  weak_anchor_min_inliers: 10
+  weak_anchor_min_good_matches: 10
+
+  strong_anchor_max_speed_mps: 70.0
+  strong_anchor_max_jump_m: 350.0
+  strong_anchor_max_gap_sec: 300.0
+
+  weak_anchor_pull_weight: 0.15
+  weak_anchor_frame_radius: 20
+
+  vo_resize_width: 640
+  vo_orb_features: 3500
+  invert_motion: true
+
+# Add or update this section in config.yaml.
+# Run this stage after:
+# 1. fast_rerank_query_reference_matches.py
+# 2. anchor_vo_v2.py
+
+factor_graph:
+  # Anchor thresholds. Lower weak_anchor_min_inliers if important areas have only weak matches.
+  strong_anchor_min_inliers: 25
+  weak_anchor_min_inliers: 8
+
+  # Absolute-location weights.
+  strong_anchor_weight: 6.0
+  weak_anchor_weight: 1.6
+
+  # Gives weight to drone motion between frames.
+  # Increase if the route is too jumpy.
+  # Decrease if visual odometry causes drift.
+  vo_motion_weight: 2.0
+
+  # Smoothness / prevents jumps.
+  smoothness_weight: 0.9
+
+  # Keeps solution near anchor_vo_v2 initial route, but not too strongly.
+  initial_route_prior_weight: 0.20
+
+  # Soft speed limit.
+  max_speed_mps: 45.0
+  speed_soft_weight: 0.35
+
+  # Map/bounds constraint. Uses these explicit bounds.
+  map_bounds_weight: 4.0
+  map_bounds_margin_m: 20.0
+  map_bounds:
+    min_lat: 32.0800
+    max_lat: 32.1400
+    min_lon: 35.1400
+    max_lon: 35.2500
+
+  # Robust optimization settings.
+  robust_loss: soft_l1
+  robust_f_scale: 20.0
+  max_nfev: 200
+  
+# Add/replace this section in config.yaml.
+# This version is tuned for a VIEW-CENTER route:
+# the output route should describe the ground area visible at the center of the realtime video frame.
+
+option2:
+  satellite_prior:
+    enabled: true
+    map_path: reference_map.png
+
+    # IMPORTANT:
+    # These must match the actual corners of reference_map.png.
+    # Do not enlarge these numbers unless the image itself was enlarged too.
+    bounds:
+      top_left_lat: 32.109036
+      top_left_lon: 35.197267
+      bottom_right_lat: 32.100075
+      bottom_right_lon: 35.217869
+
+    # SIFT is more accurate for map matching; ORB is faster.
+    detector: sift
+    ratio: 0.75
+    ransac_px: 5.0
+    rotations: [0, 90, 180, 270]
+    query_resize_width: 960
+    frame_step: 1
+    max_frames: 0
+
+  fusion:
+    # Dynamic weighting: no manual time split.
+    dynamic_view_center_weights: true
+
+    # Reference anchors are useful, but weaker than map prior for view-center route.
+    reference_strong_min_inliers: 25
+    reference_weak_min_inliers: 8
+    reference_strong_weight: 3.0
+    reference_weak_weight: 0.8
+
+    # If map matching is confident, reference anchors are reduced.
+    reference_reduction_when_map_confident: 0.75
+    min_reference_weight_factor: 0.20
+
+    # Map prior is the main source for image-center location.
+    map_prior_min_inliers: 12
+    map_prior_weight: 7.0
+
+    # VO preserves continuity between frames.
+    vo_motion_weight: 10.0
+
+    # Smoothness is useful, but dynamically reduced when map confidence is high.
+    smoothness_weight: 5.0
+    smoothness_relief_from_map_confidence: 0.65
+
+    # Weak prior to the existing good route.
+    initial_route_prior_weight: 0.10
+
+    # This is a view-center route, so apparent motion can be much faster than drone motion.
+    max_speed_mps: 250.0
+    speed_soft_weight: 0.05
+    speed_relief_from_map_confidence: 0.95
+
+    # Tighten these to the actual flight/map area.
+    map_bounds_weight: 5.0
+    map_bounds_margin_m: 20.0
+    map_bounds:
+      min_lat: 32.0800
+      max_lat: 32.1400
+      min_lon: 35.1400
+      max_lon: 35.2500
+
+    robust_loss: soft_l1
+    robust_f_scale: 20.0
+    max_nfev: 200
+
+  dynamic_view_center_weights: true
+
+  # Map/image-center matching.
+  map_prior_min_inliers: 12
+  map_prior_weight: 4.0
+
+  # Reference anchors are useful, but weaker when map is confident.
+  reference_strong_weight: 3.0
+  reference_weak_weight: 0.8
+  reference_reduction_when_map_confident: 0.75
+  min_reference_weight_factor: 0.20
+
+  # VO reliability thresholds.
+  # If motion_inliers/motion_matches are near these values, VO gets high confidence.
+  # If they are low, VO is automatically weakened.
+  vo_good_inliers: 35
+  vo_good_matches: 55
+  vo_min_weight_factor: 0.05
+
+  # VO is useful when frames overlap well.
+  vo_motion_weight: 2.5
+
+  # Smoothness is strong only when VO is reliable, and weaker when map is confident.
+  smoothness_weight: 1.0
+  smoothness_relief_from_map_confidence: 0.65
+  smooth_min_weight_factor: 0.05
+
+  # This is a view-center route, so apparent motion can be fast.
+  max_speed_mps: 250.0
+  speed_soft_weight: 0.20
+  speed_relief_from_map_confidence: 0.95
+
+  # Keep the existing route weakly, but let confident map matches override it.
+  initial_route_prior_weight: 0.10
+
+
+
+
+
