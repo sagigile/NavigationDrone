@@ -2,7 +2,6 @@
 
 This repository contains the final project for autonomous UAV visual navigation. The system is designed to estimate the real-time location and flight trajectory of a drone in a GPS-denied environment by relying solely on visual inputs (camera feed), reference mapping, and advanced filtering algorithms.
 
-**Developed at:** Ariel University, Department of Computer Science.
 
 ##  Trajectory Results
 
