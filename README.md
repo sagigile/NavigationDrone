@@ -47,8 +47,10 @@ The architecture is divided into two main execution pipelines:
 To generate the highly accurate, smoothed flight path using the pre-computed feature matching data:
 ```bash
 python Main.py --config config.yaml --only-fusion
+```
 
 ## Real-Time Navigation Engine (Live Simulation)
 To demonstrate the system's capability to run on edge hardware (e.g., a drone's companion computer) and handle live, noisy visual data in milliseconds:
+```
 python RealTime_Demo.py
 
