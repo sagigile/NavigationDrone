@@ -4,13 +4,13 @@ This repository contains the final project for autonomous UAV visual navigation.
 
 **Developed at:** Ariel University, Department of Computer Science.
 
-## 🌍 Trajectory Results
+##  Trajectory Results
 
 Here is the final offline-fusion "View-Center" trajectory running accurately on the 2D map:
 
 <img width="934" height="567" alt="trajectory_result png" src="https://github.com/user-attachments/assets/4ff0d052-bd6f-4f85-aa8e-8b289a3c0577" />
 
-## 🎯 Project Overview
+##  Project Overview
 
 The core objective is to calculate the precise "View-Center" trajectory...
 
@@ -20,13 +20,13 @@ The architecture is divided into two main execution pipelines:
 1. **Offline Fusion Optimizer (High Precision):** A batch-processing pipeline that extracts features, reranks matches, and solves a robust factor graph to generate a perfectly smoothed 3D/2D trajectory.
 2. **Online Real-Time Engine (High Speed):** A lightweight `ConstantVelocityKalman3D` filter designed for edge computing, demonstrating sub-millisecond noise reduction for live camera feeds.
 
-## ✨ Key Features
+##  Key Features
 * **Multi-Source Localization:** Integrates Visual Odometry (VO), Satellite Map Priors, and Reference Flight Anchors.
 * **Robust Factor Graph Optimization:** Eliminates trajectory drift and physical anomalies (e.g., teleportation jumps) using adaptive robust loss functions.
 * **Real-Time Kalman Filtering:** Smooths violent visual tracking errors (false positives) in real-time.
 * **KML Export:** Automatically generates Google Earth compatible `.kml` files for immediate 3D visual validation.
 
-## 📁 Repository Structure
+##  Repository Structure
 * `Main.py` - The primary entry point for the offline batch-processing pipeline.
 * `RealTime_Demo.py` - Proof of Concept (PoC) demonstrating the real-time Kalman filter engine.
 * `config.yaml` - The master configuration file containing weights, thresholds, and operational parameters.
@@ -34,18 +34,21 @@ The architecture is divided into two main execution pipelines:
 * `pipeline/` - Scripts for sequential data processing (Anchor matching, VO integration, Fusion).
 * `requirements.txt` - Python dependencies.
 
-## ⚙️ Installation & Setup
+##  Installation & Setup
 
 1. **Clone the repository:**
    ```bash
    git clone https://github.com/sagigile/NavigationDrone.git
    cd NavigationDrone
 
-## 🚀 Usage
+##  Usage
 
 ### 1. Offline Trajectory Generation (Max Precision)
 To generate the highly accurate, smoothed flight path using the pre-computed feature matching data:
 ```bash
 python Main.py --config config.yaml --only-fusion
+
+## Real-Time Navigation Engine (Live Simulation)
+To demonstrate the system's capability to run on edge hardware (e.g., a drone's companion computer) and handle live, noisy visual data in milliseconds:
 python RealTime_Demo.py
 
