@@ -5,21 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9e7a9c0f-029b-45e5-ac00-aa67879d1e29" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/VisualNavigation.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/DJI_20260427152735_0019_D.SRT" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Full_Trajectory_Localization.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Generate_Video.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/final_navigation_benchmark.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/flight_dataset_index.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/localization_results_summary.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/reference_map.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/RealTime_Demo.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,6 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;sagigile&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/sagigile/NavigationDrone.git&quot;,
+    &quot;accountId&quot;: &quot;b316a669-37d1-4012-8b91-8547e530f6db&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 3
 }</component>
@@ -45,21 +45,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.CalibrateMap.executor": "Run",
-    "Python.Deep_PnP_Localization.executor": "Run",
-    "Python.Full_Trajectory_Localization.executor": "Run",
-    "Python.Generate_Video.executor": "Run",
-    "Python.LocalizeDrone.executor": "Run",
-    "Python.Main.executor": "Run",
-    "Python.PlotPath.executor": "Run",
-    "Python.PnP_Localization.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.CalibrateMap.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Deep_PnP_Localization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Full_Trajectory_Localization.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Generate_Video.executor&quot;: &quot;Run&quot;,
+    &quot;Python.LocalizeDrone.executor&quot;: &quot;Run&quot;,
+    &quot;Python.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PlotPath.executor&quot;: &quot;Run&quot;,
+    &quot;Python.PnP_Localization.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;
   }
-}]]></component>
+}</component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
