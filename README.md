@@ -4,11 +4,16 @@ This repository contains the final project for autonomous UAV visual navigation.
 
 **Developed at:** Ariel University, Department of Computer Science.
 
-## 🎯 Project Overview
 ## 🌍 Trajectory Results
+
 Here is the final offline-fusion "View-Center" trajectory running accurately on the 2D map:
 
 ![Flight Trajectory](trajectory_result.png)
+
+## 🎯 Project Overview
+
+The core objective is to calculate the precise "View-Center" trajectory...
+
 The core objective is to calculate the precise "View-Center" trajectory (the exact ground location the drone's camera is pointing at) using a hybrid architecture. The system compares a raw, telemetry-less query video against previously recorded reference flights and a 2D satellite map.
 
 The architecture is divided into two main execution pipelines:
