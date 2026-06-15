@@ -8,7 +8,7 @@ This repository contains the final project for autonomous UAV visual navigation.
 
 Here is the final offline-fusion "View-Center" trajectory running accurately on the 2D map:
 
-![Flight Trajectory](trajectory_result.png)
+<img width="934" height="567" alt="trajectory_result png" src="https://github.com/user-attachments/assets/4ff0d052-bd6f-4f85-aa8e-8b289a3c0577" />
 
 ## 🎯 Project Overview
 
