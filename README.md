@@ -40,3 +40,12 @@ The architecture is divided into two main execution pipelines:
    ```bash
    git clone https://github.com/sagigile/NavigationDrone.git
    cd NavigationDrone
+
+## 🚀 Usage
+
+### 1. Offline Trajectory Generation (Max Precision)
+To generate the highly accurate, smoothed flight path using the pre-computed feature matching data:
+```bash
+python Main.py --config config.yaml --only-fusion
+python RealTime_Demo.py
+
